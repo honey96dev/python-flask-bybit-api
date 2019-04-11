@@ -1,35 +1,20 @@
 from flask import Flask, request
-import hashlib
-import hmac
-import base64
 import requests
 import json
+from my_functions import int_parser, float_parser, generate_hmac_sha256_hex
 
 app = Flask(__name__)
 
-testnet_url = 'https://api-testnet.bybit.com/open-api'
-mainnet_url = 'https://api.bybit.com/open-api'
+###### https://api.bybit.com/v2/private/execution/list
+
+
+testnet_url = 'https://api-testnet.bybit.com'
+mainnet_url = 'https://api.bybit.com'
 # api_key = 'B2Rou0PLPpGqcU0Vu2'
 # secret_key = 't7T0YlFnYXk0Fx3JswQsDrViLg1Gh3DUU5Mr'
-api_key = 'ndy9IwVo9jas6sTC29'
-secret_key = 'KLFEIhm5j3DJu5hQgdiCNpNA3N60yVu39UP3'
-server_base_url = testnet_url
-
-def generate_hmac_sha256_hash(secret, message):
-    message_bytes = bytes(message, 'utf-8')
-    secret_bytes = bytes(secret, 'utf-8')
-
-    return hmac.new(secret_bytes, message_bytes, hashlib.sha256)
-
-
-def generate_hmac_sha256_hex(secret, message):
-    hash = generate_hmac_sha256_hash(secret, message)
-    return hash.hexdigest()
-
-
-def generate_hmac_sha256_base64(secret, message):
-    hash = generate_hmac_sha256_hash(secret, message)
-    return base64.b64encode(hash.digest())
+api_key = '7270jBNmOvsunjeGL5'
+secret_key = 'uXvIZ3WuZFu1opxhfY8WGqap5eMJY9aDpzey'
+server_base_url = mainnet_url
 
 
 @app.route('/order/list', methods=['GET'])
@@ -44,22 +29,30 @@ def order_list():
     limit = params.get('limit', '')
     order_status = params.get('order_status', '')
 
-    params_string = 'api_key={}'
-    params_string = params_string.format(api_key)
-    params_string = 'api_key={}&limit={}&order={}&order_id={}&order_link_id={}&' + \
-                    'order_status={}&page={}&sort={}&symbol={}'
-    params_string = params_string.format(api_key, limit, order, order_id, order_link_id,
-                                         order_status, page, sort, symbol)
+    url = '{}/GET/realtime'.format(server_base_url)
+    # timestamp = calendar.timegm(time.gmtime()) + 1000
+    try:
+        r = requests.get(url=url)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+        timestamp = int_parser(float_parser(rows['time_now']) * 1000)
+
+        print("timestamp", timestamp)
+    except:
+        return 'error'
+
+    params_string = 'api_key={}&timestamp={}'
+    params_string = params_string.format(api_key, timestamp)
+    # params_string = 'api_key={}&limit={}&order={}&order_id={}&order_link_id={}&' + \
+    #                 'order_status={}&page={}&sort={}&symbol={}&timestamp={}'
+    # params_string = params_string.format(api_key, limit, order, order_id, order_link_id,
+    #                                      order_status, page, sort, symbol, timestamp)
     sign = generate_hmac_sha256_hex(secret_key, params_string)
 
 
-    url = '{}/order/list'.format(server_base_url)
+    url = '{}/open-api/order/list'.format(server_base_url)
 
-    bybit_url = '{}/order/list?{}&sign={}'.format(server_base_url, params_string, sign)
-    print(bybit_url)
-
-    print(url)
-    # defining a params dict for the parameters to be sent to the API
     params = {
         'api_key': api_key,
         'limit': limit,
@@ -70,12 +63,13 @@ def order_list():
         'page': page,
         'sort': sort,
         'symbol': symbol,
+        'timestamp': timestamp,
         'sign': sign,
     }
 
-    r = requests.get(url=url, params=params)
-
     try:
+        r = requests.get(url=url, params=params)
+
         formatted_string = r.text.replace("'", '"')
         rows = json.loads(formatted_string)
 
@@ -83,12 +77,26 @@ def order_list():
     except:
         return 'error'
 
-    secret = 't7T0YlFnYXk0Fx3JswQsDrViLg1Gh3DUU5Mr'
-    message = 'api_key=B2Rou0PLPpGqcU0Vu2&leverage=100&symbol=BTCUSD&timestamp=1542434791000'
-    return generate_hmac_sha256_hex(secret, message)
+    # secret = 't7T0YlFnYXk0Fx3JswQsDrViLg1Gh3DUU5Mr'
+    # message = 'api_key=B2Rou0PLPpGqcU0Vu2&leverage=100&symbol=BTCUSD&timestamp=1542434791000'
+    # return generate_hmac_sha256_hex(secret, message)
+
 
 
 if __name__ == '__main__':
     context = ('domain.crt', 'domain.key')
     # app.run(host='0.0.0.0', port=443, ssl_context='adhoc')
     app.run(port=443, ssl_context=context)
+
+
+# s = sched.scheduler(time.time, time.sleep)
+# def do_something(sc):
+#     try:
+#         print(order_list())
+#     except:
+#         time.sleep(5)
+#     # do your stuff
+#     s.enter(1, 1, do_something, (sc,))
+#
+# s.enter(1, 1, do_something, (s,))
+# s.run()
