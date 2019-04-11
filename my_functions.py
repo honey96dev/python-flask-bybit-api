@@ -2,7 +2,7 @@ import hashlib
 import hmac
 import base64
 
-api_key = '7270jBNmOvsunjeGL5'
+api_key = 'CtXGhVF2ubhX72V5aA'
 
 
 def float_parser(x):
