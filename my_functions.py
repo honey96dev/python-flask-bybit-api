@@ -1,7 +1,8 @@
-
 import hashlib
 import hmac
 import base64
+
+api_key = '7270jBNmOvsunjeGL5'
 
 
 def float_parser(x):
@@ -23,6 +24,7 @@ def int_parser(x):
 
     return res
 
+
 def generate_hmac_sha256_hash(secret, message):
     message_bytes = bytes(message, 'utf-8')
     secret_bytes = bytes(secret, 'utf-8')
@@ -31,13 +33,19 @@ def generate_hmac_sha256_hash(secret, message):
 
 
 def generate_hmac_sha256_hex(secret, message):
-    hash = generate_hmac_sha256_hash(secret, message)
-    return hash.hexdigest()
+    hmac_hash = generate_hmac_sha256_hash(secret, message)
+    return hmac_hash.hexdigest()
 
 
 def generate_hmac_sha256_base64(secret, message):
-    hash = generate_hmac_sha256_hash(secret, message)
-    return base64.b64encode(hash.digest())
+    hmac_hash = generate_hmac_sha256_hash(secret, message)
+    return base64.b64encode(hmac_hash.digest())
 
-def generate_param_string(params):
-    a = 1
+
+def generate_params_string(params):
+    param_string = 'api_key={}'.format(api_key)
+    for key, value in params.items():
+        if (value is not None):
+            param_string = '{}&{}={}'.format(param_string, key, value)
+
+    return param_string
