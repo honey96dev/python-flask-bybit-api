@@ -76,8 +76,8 @@ def ws_kline(symbol = '*', interval = '*'):
     return ret_res
 
 
-symbols = ['BTCUSD', 'ETHUSD']
-kline_intervals = ['1m', '3m', '5m', '15m', '30m',
+symbols = ['*', 'BTCUSD', 'ETHUSD']
+kline_intervals = ['*','1m', '3m', '5m', '15m', '30m',
                          '1h', '2h', '3h', '4h', '6h',
                          '1d', '3d',
                          '1w', '2w',
@@ -91,11 +91,11 @@ for symbol in symbols:
 time.sleep(0.5)
 
 
-eprint('#ws_kline({}, {})'.format('*', '*'), ws_kline())
-for symbol in symbols:
-    eprint('#ws_kline({}, {})'.format(symbol, '*'), ws_kline(symbol))
-for interval in kline_intervals:
-    eprint('#ws_kline({}, {})'.format('*', interval), ws_kline(interval=interval))
+# eprint('#ws_kline({}, {})'.format('*', '*'), ws_kline())
+# for symbol in symbols:
+#     eprint('#ws_kline({}, {})'.format(symbol, '*'), ws_kline(symbol))
+# for interval in kline_intervals:
+#     eprint('#ws_kline({}, {})'.format('*', interval), ws_kline(interval=interval))
 for symbol in symbols:
     for interval in kline_intervals:
         eprint('#ws_kline({}, {})'.format(symbol, interval), ws_kline(symbol, interval))
