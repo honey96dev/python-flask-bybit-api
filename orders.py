@@ -1,6 +1,8 @@
-from flask import request
-import requests
 import json
+
+import requests
+from flask import request
+
 from global_constant import server_base_url, api_key, secret_key
 from my_functions import generate_hmac_sha256_hex, generate_params_string, get_current_timestamp
 

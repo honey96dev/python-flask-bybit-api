@@ -1,9 +1,12 @@
+import base64
+import calendar
 import hashlib
 import hmac
-import base64
-import requests
 import json
-import calendar, time
+import time
+
+import requests
+
 from global_constant import server_base_url, api_key
 
 
@@ -54,13 +57,13 @@ def generate_params_string(params):
 
 
 def get_current_timestamp():
-    timestamp = int_parser(calendar.timegm(time.gmtime()) * 1000)
+    timestamp = int_parser(calendar.timegm(time.gmtime()) * 1000) + 1000
     url = '{}/GET/realtime'.format(server_base_url)
     try:
         r = requests.get(url=url)
 
         formatted_string = r.text.replace("'", '"')
         rows = json.loads(formatted_string)
-        timestamp = int_parser(float_parser(rows['time_now']) * 1000)
+        timestamp = int_parser(float_parser(rows['time_now']) * 1000) + 1000
     finally:
         return timestamp
