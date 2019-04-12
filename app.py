@@ -35,6 +35,41 @@ def stop_order_cancel():
     return rest_api.stop_order_cancel()
 
 
+@app.route('/user/leverage', methods=['GET'])
+def user_leverage():
+    return rest_api.user_leverage()
+
+
+@app.route('/user/leverage/save', methods=['POST'])
+def user_leverage_save():
+    return rest_api.user_leverage_save()
+
+
+@app.route('/position/list', methods=['GET'])
+def position_list():
+    return rest_api.position_list()
+
+
+@app.route('/position/change', methods=['POST'])
+def position_change():
+    return rest_api.position_change()
+
+
+@app.route('/last-funding-fee', methods=['GET'])
+def last_funding_fee():
+    return rest_api.last_funding_fee()
+
+
+@app.route('/predicted-funding-rate-fee', methods=['GET'])
+def predicted_funding_rate_fee():
+    return rest_api.predicted_funding_rate_fee()
+
+
+@app.route('/trade-records', methods=['GET'])
+def trade_records():
+    return rest_api.trade_records()
+
+
 if __name__ == '__main__':
     context = ('domain.crt', 'domain.key')
     # app.run(host='0.0.0.0', port=443, ssl_context='adhoc')

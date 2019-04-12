@@ -239,3 +239,241 @@ def stop_order_cancel():
         return json.dumps(
             {'ret_msg': 'error'}
         )
+
+
+def user_leverage():
+    timestamp = get_current_timestamp()
+
+    params = {
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/user/leverage'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.get(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def user_leverage_save():
+    params = request.args
+    leverage = params.get('leverage')
+    symbol = params.get('symbol')
+    timestamp = get_current_timestamp()
+
+    params = {
+        'leverage': leverage,
+        'symbol': symbol,
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/user/leverage/save'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.post(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def position_list():
+    timestamp = get_current_timestamp()
+
+    params = {
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/position/list'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.get(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def position_change():
+    params = request.args
+    margin = params.get('margin')
+    symbol = params.get('symbol')
+    timestamp = get_current_timestamp()
+
+    params = {
+        'margin': margin,
+        'symbol': symbol,
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/position/change-position-margin'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.post(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def last_funding_rate():
+    params = request.args
+    symbol = params.get('symbol')
+    timestamp = get_current_timestamp()
+
+    params = {
+        'symbol': symbol,
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/open-api/funding/prev-funding-rate'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.get(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def last_funding_fee():
+    params = request.args
+    symbol = params.get('symbol')
+    timestamp = get_current_timestamp()
+
+    params = {
+        'symbol': symbol,
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/open-api/funding/prev-funding'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.get(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def predicted_funding_rate_fee():
+    params = request.args
+    symbol = params.get('symbol')
+    timestamp = get_current_timestamp()
+
+    params = {
+        'symbol': symbol,
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/open-api/funding/predicted-funding'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.get(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
+
+
+def trade_records():
+    params = request.args
+    order_id = params.get('order_id')
+    timestamp = get_current_timestamp()
+
+    params = {
+        'order_id': order_id,
+        'timestamp': timestamp,
+    }
+    params_string = generate_params_string(params)
+    sign = generate_hmac_sha256_hex(secret_key, params_string)
+
+    url = '{}/v2/private/execution/list'.format(server_base_url)
+
+    params['api_key'] = api_key
+    params['sign'] = sign
+
+    try:
+        r = requests.get(url=url, params=params)
+
+        formatted_string = r.text.replace("'", '"')
+        rows = json.loads(formatted_string)
+
+        return json.dumps(rows)
+    except:
+        return json.dumps(
+            {'ret_msg': 'error'}
+        )
