@@ -1,13 +1,20 @@
+from __future__ import print_function
+
 import base64
 import calendar
 import hashlib
 import hmac
 import json
+import sys
 import time
 
 import requests
 
 from global_constant import server_base_url, api_key
+
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 
 def float_parser(x):

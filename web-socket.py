@@ -1,5 +1,5 @@
 from global_constant import api_key, websocket_base_url, secret_key
-from my_functions import get_current_timestamp, generate_hmac_sha256_hex, generate_params_string
+from my_functions import eprint, get_current_timestamp, generate_hmac_sha256_hex, generate_params_string
 import websocket
 import json
 import time
@@ -83,21 +83,21 @@ kline_intervals = ['1m', '3m', '5m', '15m', '30m',
                          '1w', '2w',
                          '1M']
 
-print('#ws_send_heartbeat', ws_send_heartbeat())
+eprint('#ws_send_heartbeat', ws_send_heartbeat())
 time.sleep(0.5)
 
 for symbol in symbols:
-    print('#ws_order_book25({})'.format(symbol), ws_order_book25(symbol))
+    eprint('#ws_order_book25({})'.format(symbol), ws_order_book25(symbol))
 time.sleep(0.5)
 
 
-print('#ws_kline({}, {})'.format('*', '*'), ws_kline())
+eprint('#ws_kline({}, {})'.format('*', '*'), ws_kline())
 for symbol in symbols:
-    print('#ws_kline({}, {})'.format(symbol, '*'), ws_kline(symbol))
+    eprint('#ws_kline({}, {})'.format(symbol, '*'), ws_kline(symbol))
 for interval in kline_intervals:
-    print('#ws_kline({}, {})'.format('*', interval), ws_kline(interval=interval))
+    eprint('#ws_kline({}, {})'.format('*', interval), ws_kline(interval=interval))
 for symbol in symbols:
     for interval in kline_intervals:
-        print('#ws_kline({}, {})'.format(symbol, interval), ws_kline(symbol, interval))
+        eprint('#ws_kline({}, {})'.format(symbol, interval), ws_kline(symbol, interval))
 time.sleep(0.5)
 
