@@ -1,7 +1,6 @@
 import json
 
 import requests
-from flask import request
 
 from global_constant import server_base_url, api_key, secret_key
 from my_functions import generate_hmac_sha256_hex, generate_params_string, get_current_timestamp
@@ -41,7 +40,8 @@ def order_create(order_link_id=None, order_type=None, price=None, qty=None, side
         )
 
 
-def order_list(order_id=None, order_link_id=None, symbol=None, sort=None, order=None, page=None, limit=None, order_status=None):
+def order_list(order_id=None, order_link_id=None, symbol=None, sort=None, order=None, page=None, limit=None,
+               order_status=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -104,7 +104,8 @@ def order_cancel(order_id=None):
         )
 
 
-def stop_order_create(base_price=None, order_link_id=None, order_type=None, price=None, qty=None, side=None, symbol=None, stop_px=None, time_in_force=None):
+def stop_order_create(base_price=None, order_link_id=None, order_type=None, price=None, qty=None, side=None,
+                      symbol=None, stop_px=None, time_in_force=None):
     timestamp = get_current_timestamp()
 
     params = {
