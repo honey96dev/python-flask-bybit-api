@@ -7,15 +7,7 @@ from global_constant import server_base_url, api_key, secret_key
 from my_functions import generate_hmac_sha256_hex, generate_params_string, get_current_timestamp
 
 
-def order_create():
-    params = request.args
-    order_link_id = params.get('order_link_id')
-    order_type = params.get('order_type')
-    price = params.get('price')
-    qty = params.get('qty')
-    side = params.get('side')
-    symbol = params.get('symbol')
-    time_in_force = params.get('time_in_force')
+def order_create(order_link_id=None, order_type=None, price=None, qty=None, side=None, symbol=None, time_in_force=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -49,16 +41,7 @@ def order_create():
         )
 
 
-def order_list():
-    params = request.args
-    order_id = params.get('order_id')
-    order_link_id = params.get('order_link_id')
-    symbol = params.get('symbol')
-    sort = params.get('sort')
-    order = params.get('order')
-    page = params.get('page')
-    limit = params.get('limit')
-    order_status = params.get('order_status')
+def order_list(order_id=None, order_link_id=None, symbol=None, sort=None, order=None, page=None, limit=None, order_status=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -93,9 +76,7 @@ def order_list():
         )
 
 
-def order_cancel():
-    params = request.args
-    order_id = params.get('order_id')
+def order_cancel(order_id=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -123,17 +104,7 @@ def order_cancel():
         )
 
 
-def stop_order_create():
-    params = request.args
-    base_price = params.get('base_price')
-    order_link_id = params.get('order_link_id')
-    order_type = params.get('order_type')
-    price = params.get('price')
-    qty = params.get('qty')
-    side = params.get('side')
-    symbol = params.get('symbol')
-    stop_px = params.get('stop_px')
-    time_in_force = params.get('time_in_force')
+def stop_order_create(base_price=None, order_link_id=None, order_type=None, price=None, qty=None, side=None, symbol=None, stop_px=None, time_in_force=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -169,15 +140,7 @@ def stop_order_create():
         )
 
 
-def stop_order_list():
-    params = request.args
-    limit = params.get('limit')
-    order = params.get('order')
-    order_link_id = params.get('order_link_id')
-    page = params.get('page')
-    sort = params.get('sort')
-    stop_order_id = params.get('stop_order_id')
-    symbol = params.get('symbol')
+def stop_order_list(limit=None, order=None, order_link_id=None, page=None, sort=None, stop_order_id=None, symbol=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -211,9 +174,7 @@ def stop_order_list():
         )
 
 
-def stop_order_cancel():
-    params = request.args
-    stop_order_id = params.get('stop_order_id')
+def stop_order_cancel(stop_order_id=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -268,10 +229,7 @@ def user_leverage():
         )
 
 
-def user_leverage_save():
-    params = request.args
-    leverage = params.get('leverage')
-    symbol = params.get('symbol')
+def user_leverage_save(leverage=None, symbol=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -327,10 +285,7 @@ def position_list():
         )
 
 
-def position_change():
-    params = request.args
-    margin = params.get('margin')
-    symbol = params.get('symbol')
+def position_change(margin=None, symbol=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -359,9 +314,7 @@ def position_change():
         )
 
 
-def last_funding_rate():
-    params = request.args
-    symbol = params.get('symbol')
+def last_funding_rate(symbol=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -389,9 +342,7 @@ def last_funding_rate():
         )
 
 
-def last_funding_fee():
-    params = request.args
-    symbol = params.get('symbol')
+def last_funding_fee(symbol=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -419,9 +370,7 @@ def last_funding_fee():
         )
 
 
-def predicted_funding_rate_fee():
-    params = request.args
-    symbol = params.get('symbol')
+def predicted_funding_rate_fee(symbol=None):
     timestamp = get_current_timestamp()
 
     params = {
@@ -449,9 +398,7 @@ def predicted_funding_rate_fee():
         )
 
 
-def trade_records():
-    params = request.args
-    order_id = params.get('order_id')
+def trade_records(order_id=None):
     timestamp = get_current_timestamp()
 
     params = {
