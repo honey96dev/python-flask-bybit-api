@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request
 
 import bybit_api
@@ -15,7 +17,7 @@ def order_create():
     side = params.get('side')
     symbol = params.get('symbol')
     time_in_force = params.get('time_in_force')
-    return bybit_api.order_create(order_link_id, order_type, price, qty, side, symbol, time_in_force)
+    return json.dumps(bybit_api.order_create(order_link_id, order_type, price, qty, side, symbol, time_in_force))
 
 
 @app.route('/order/list', methods=['GET'])
@@ -29,14 +31,14 @@ def order_list():
     page = params.get('page')
     limit = params.get('limit')
     order_status = params.get('order_status')
-    return bybit_api.order_list(order_id, order_link_id, symbol, sort, order, page, limit, order_status)
+    return json.dumps(bybit_api.order_list(order_id, order_link_id, symbol, sort, order, page, limit, order_status))
 
 
 @app.route('/order/cancel', methods=['POST'])
 def order_cancel():
     params = request.args
     order_id = params.get('order_id')
-    return bybit_api.order_cancel(order_id)
+    return json.dumps(bybit_api.order_cancel(order_id))
 
 
 @app.route('/stop-order/create', methods=['POST'])
@@ -51,7 +53,7 @@ def stop_order_create():
     symbol = params.get('symbol')
     stop_px = params.get('stop_px')
     time_in_force = params.get('time_in_force')
-    return bybit_api.stop_order_create(base_price, order_link_id, order_type, price, qty, side, symbol, stop_px, time_in_force)
+    return json.dumps(bybit_api.stop_order_create(base_price, order_link_id, order_type, price, qty, side, symbol, stop_px, time_in_force))
 
 
 @app.route('/stop-order/list', methods=['GET'])
@@ -64,19 +66,19 @@ def stop_order_list():
     sort = params.get('sort')
     stop_order_id = params.get('stop_order_id')
     symbol = params.get('symbol')
-    return bybit_api.stop_order_list(limit, order, order_link_id, page, sort, stop_order_id, symbol)
+    return json.dumps(bybit_api.stop_order_list(limit, order, order_link_id, page, sort, stop_order_id, symbol))
 
 
 @app.route('/stop-order/cancel', methods=['POST'])
 def stop_order_cancel():
     params = request.args
     stop_order_id = params.get('stop_order_id')
-    return bybit_api.stop_order_cancel(stop_order_id)
+    return json.dumps(bybit_api.stop_order_cancel(stop_order_id))
 
 
 @app.route('/user/leverage', methods=['GET'])
 def user_leverage():
-    return bybit_api.user_leverage()
+    return json.dumps(bybit_api.user_leverage())
 
 
 @app.route('/user/leverage/save', methods=['POST'])
@@ -84,12 +86,12 @@ def user_leverage_save():
     params = request.args
     leverage = params.get('leverage')
     symbol = params.get('symbol')
-    return bybit_api.user_leverage_save(leverage, symbol)
+    return json.dumps(bybit_api.user_leverage_save(leverage, symbol))
 
 
 @app.route('/position/list', methods=['GET'])
 def position_list():
-    return bybit_api.position_list()
+    return json.dumps(bybit_api.position_list())
 
 
 @app.route('/position/change', methods=['POST'])
@@ -97,35 +99,35 @@ def position_change():
     params = request.args
     margin = params.get('margin')
     symbol = params.get('symbol')
-    return bybit_api.position_change(margin, symbol)
+    return json.dumps(bybit_api.position_change(margin, symbol))
 
 
 @app.route('/last-funding-rate', methods=['GET'])
 def last_funding_rate():
     params = request.args
     symbol = params.get('symbol')
-    return bybit_api.last_funding_rate(symbol)
+    return json.dumps(bybit_api.last_funding_rate(symbol))
 
 
 @app.route('/last-funding-fee', methods=['GET'])
 def last_funding_fee():
     params = request.args
     symbol = params.get('symbol')
-    return bybit_api.last_funding_fee(symbol)
+    return json.dumps(bybit_api.last_funding_fee(symbol))
 
 
 @app.route('/predicted-funding-rate-fee', methods=['GET'])
 def predicted_funding_rate_fee():
     params = request.args
     symbol = params.get('symbol')
-    return bybit_api.predicted_funding_rate_fee(symbol)
+    return json.dumps(bybit_api.predicted_funding_rate_fee(symbol))
 
 
 @app.route('/trade-records', methods=['GET'])
 def trade_records():
     params = request.args
     order_id = params.get('order_id')
-    return bybit_api.trade_records(order_id)
+    return json.dumps(bybit_api.trade_records(order_id))
 
 
 if __name__ == '__main__':

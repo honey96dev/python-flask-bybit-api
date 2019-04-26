@@ -2,8 +2,8 @@ import json
 
 import websocket
 
-from global_constant import api_key, secret_key, websocket_base_url
-from my_functions import eprint, get_current_timestamp, generate_hmac_sha256_hex, generate_params_string
+import global_constant
+import my_functions
 
 
 # def ws_open():
@@ -57,25 +57,25 @@ from my_functions import eprint, get_current_timestamp, generate_hmac_sha256_hex
 
 
 def on_ws_message(ws, message):
-    eprint('message', message)
+    my_functions.eprint('message', message)
 
 
 def on_ws_error(ws, error):
-    eprint('error', error)
+    my_functions.eprint('error', error)
 
 
 def on_ws_close(ws):
-    eprint("### closed ###")
+    my_functions.eprint("### closed ###")
 
 
 def on_ws_open(ws):
-    eprint("### opened ###")
-    expires = get_current_timestamp()
+    my_functions.eprint("### opened ###")
+    expires = my_functions.get_current_timestamp()
     signature_param = 'GET/realtime{}'.format(expires)
-    signature = generate_hmac_sha256_hex(secret_key, signature_param)
+    signature = my_functions.generate_hmac_sha256_hex(global_constant.secret_key, signature_param)
     params = {
         'op': 'auth',
-        'args': [api_key, expires, signature]
+        'args': [global_constant.api_key, expires, signature]
     }
     ws_query = json.dumps(params)
     ws.send(ws_query)
@@ -85,7 +85,7 @@ def on_ws_open(ws):
 
 if __name__ == "__main__":
     websocket.enableTrace(True)
-    ws = websocket.WebSocketApp(websocket_base_url,
+    ws = websocket.WebSocketApp(global_constant.websocket_base_url,
                                 on_message=on_ws_message,
                                 on_error=on_ws_error,
                                 on_close=on_ws_close)

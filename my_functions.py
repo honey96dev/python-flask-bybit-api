@@ -10,7 +10,7 @@ import time
 
 import requests
 
-from global_constant import server_base_url, api_key
+import global_constant
 
 
 def eprint(*args, **kwargs):
@@ -55,9 +55,9 @@ def generate_hmac_sha256_base64(secret, message):
 
 
 def generate_params_string(params):
-    param_string = 'api_key={}'.format(api_key)
+    param_string = 'api_key={}'.format(global_constant.api_key)
     for key, value in params.items():
-        if (value is not None):
+        if value is not None:
             param_string = '{}&{}={}'.format(param_string, key, value)
 
     return param_string
@@ -65,7 +65,7 @@ def generate_params_string(params):
 
 def get_current_timestamp():
     timestamp = int_parser(calendar.timegm(time.gmtime()) * 1000) + 1000
-    url = '{}/GET/realtime'.format(server_base_url)
+    url = '{}/GET/realtime'.format(global_constant.server_base_url)
     try:
         r = requests.get(url=url)
 
